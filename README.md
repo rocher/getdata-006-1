@@ -52,19 +52,19 @@ unzip("dataset.zip")
 This command results in the following directory structure populated with files:
 
 ```R
-<b>UCI HAR Dataset/</b>
-  ├── activity_labels.txt
+UCI HAR Dataset/
+  ├── activity_labels.txt                        :small_orange_diamond:
   ├── features_info.txt
-  ├── features.txt
+  ├── features.txt                               :small_orange_diamond:
   ├── README.txt
-  ├── **test/**
+  ├── test/
   │   ├── Inertial Signals
   │   │   ├── body_acc_x_test.txt
   │   │   :
   │   │   └── total_acc_z_test.txt
-  │   ├── subject_test.txt
-  │   ├── X_test.txt
-  │   └── y_test.txt
+  │   ├── subject_test.txt                       :small_blue_diamond:
+  │   ├── X_test.txt                             :small_blue_diamond:
+  │   └── y_test.txt                             :small_blue_diamond:
   └── train/
       ├── Inertial Signals
       ├── body_acc_x_train.txt
@@ -77,7 +77,7 @@ This command results in the following directory structure populated with files:
 4 directories, 28 files
 ```
 
- I prefer short directory names (and without spaces), for short and for ease of use. For this `file.rename` comes in handy:
+I prefer short directory names (and without spaces), for short and for ease of use. For this `file.rename` comes in handy:
 
 ```R
 file.rename("UCI HAR Dataset", "data")
