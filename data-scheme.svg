@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="data-scheme.svg">
+   sodipodi:docname="data-scheme.svg"
+   inkscape:export-filename="/home/rocher/Coursera/ds/3-Getting_and_Cleaning_Data/getdata-006-1/data-scheme.png"
+   inkscape:export-xdpi="67.5"
+   inkscape:export-ydpi="67.5">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -267,7 +270,11 @@
            y="557.4895"
            x="286.63287"
            id="tspan6138"
-           sodipodi:role="line">y_test.txt</tspan></text>
+           sodipodi:role="line">y_test.txt<tspan
+   style="font-style:normal;font-weight:normal;-inkscape-font-specification:PT Sans Narrow Bold Condensed"
+   id="tspan7384">  (<tspan
+   style="font-style:oblique;-inkscape-font-specification:PT Sans Narrow Bold Condensed"
+   id="tspan7386">activity </tspan>)</tspan></tspan></text>
       <path
          inkscape:connector-curvature="0"
          id="path6418"
@@ -571,7 +578,11 @@
            sodipodi:role="line"
            id="tspan6138-4"
            x="286.27695"
-           y="1001.8632">y_train.txt</tspan></text>
+           y="1001.8632">y_train.txt<tspan
+   style="font-weight:normal;-inkscape-font-specification:PT Sans Narrow Condensed"
+   id="tspan7388">  (<tspan
+   style="font-style:oblique;-inkscape-font-specification:PT Sans Narrow Bold Condensed"
+   id="tspan7390">activity </tspan>)</tspan></tspan></text>
       <path
          inkscape:connector-curvature="0"
          id="path6418-1"
