@@ -2,12 +2,12 @@
 
 ## Introduction
 
-This is my submission for the course project.I hope you enjoy my work
+This is my submission for the course project *Getting and Cleaning Data* (<tt>getdata-006</tt>). I hope you enjoy my work, the way I've constructed the data set and the `R` code provided here to make it.
 
 
 ### The Big Picture
 
-First at all I'd like to start by providing a *big picture* of the data set. Of course, reading the documentation that comes with the <tt>zip</tt> file is a big help to understand how to organize data.
+First of all, I'd like to start by providing a *big picture* of the data set. Of course, reading the documentation that comes with the *zip* file is a big help to understand how to organize data.
 
 After reading the documentation and with a simple examination of the files, it's clear that all the data contained must be organized as follows:
 
@@ -15,11 +15,8 @@ After reading the documentation and with a simple examination of the files, it's
 ![data scheme here](data-scheme.png)
 </center>
 
-The files I will use are:
-
-| filename          | role                    |
-|-------------------|-------------------------|
-| data/features.txt | basic name of variables |
+Each data block can be extracted from the files indicated in the figure, although more will be used during the construction process.
+Please note two unamed blue columns in the figure. They correspond to a new factor variable I'll introduce later called `origin`. The purpose of this variable is to keep track of the origin of each row. Obvious possible values are `test` or `train`.
 
 
 ## Getting Data
