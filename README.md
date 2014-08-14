@@ -51,13 +51,13 @@ unzip("dataset.zip")
 
 This command results in the following directory structure populated with files:
 
-```bash
-UCI HAR Dataset/
+```
+<b>UCI HAR Dataset/</b>
   ├── activity_labels.txt
   ├── features_info.txt
   ├── features.txt
   ├── README.txt
-  ├── test/
+  ├── **test/**
   │   ├── Inertial Signals
   │   │   ├── body_acc_x_test.txt
   │   │   :
