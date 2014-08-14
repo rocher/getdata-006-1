@@ -24,7 +24,7 @@ Each data block can be extracted from the files indicated in the figure, althoug
 
 Please note two unamed <span style="color:blue">*blue columns*</span> in the figure. They correspond to a new factor variable I'll introduce later called `origin`. The purpose of this variable is to keep track of the origin of each row. Obvious possible values are `test` or `train`.
 
-### Omiting files (:heavy_exclamation_mark:)
+### Omiting files (:interrobang:)
 
 I deliberately omit the files contained in the `test/Intertial Signals` and `train/Intertial Signals` directories because the final dataset must contain only those measurements on the mean and standard deviation for each measurement. Neither of these directories contains such data. All measurements there correspond to body acceleration, gyroscope and total acceleration, so there's no need to worry about them.
 
@@ -51,7 +51,7 @@ unzip("dataset.zip")
 
 This command results in the following directory structure populated with files:
 
-```tree
+```R
 <b>UCI HAR Dataset/</b>
   ├── activity_labels.txt
   ├── features_info.txt
