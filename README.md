@@ -51,7 +51,7 @@ unzip("dataset.zip")
 
 This command results in the following directory structure populated with files:
 
-```
+```html
 <b>UCI HAR Dataset/</b>
   ├── activity_labels.txt
   ├── features_info.txt
