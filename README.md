@@ -1,13 +1,5 @@
----
-output:
-  html_document:
-    number_sections: no
-    toc: no
----
 # Getting and Cleaning Data
-
 ## Introduction
-
 This is my submission for the course project.
 
 
