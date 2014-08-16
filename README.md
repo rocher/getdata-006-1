@@ -1,14 +1,26 @@
-# Getting and Cleaning Data 
+<style type="text/css">
+    .md { color:#444; }
+</style>
+<h1 class="md">Getting and Cleaning Data</md>
 ### *Project Submission*
 
 <br>
 ## Introduction
 
-This is my submission for the course project *Getting and Cleaning Data* (<tt>getdata-006</tt>). I hope you enjoy my work, the way I've constructed the dataset and the `R` code provided here to make it.
+This is my submission for the course project *Getting and Cleaning Data*
+(<tt>getdata-006</tt>). I hope you enjoy my work, the way I've constructed
+the dataset and the `R` code provided here to make it.
 
 The file you are reading, `README.md`, contains exactly the same `R` code than the script file `run_analysis.R` provided to make the assignment. Here the ideas are developed and explained in great detail, whereas in the script you'll find `R` comments with references to the steps followed all along the work.
 
 You can indistinctly run every single `R` in this file or run the script file. The final result shall be the same.
+
+### Requirements
+
+`R` libraries used:
+```R
+library(data.table)
+```
 
 ### The Big Picture
 
@@ -53,18 +65,18 @@ This command results in the following directory structure populated with files:
 
 ```R
 UCI HAR Dataset/
-  ├── activity_labels.txt                        :small_orange_diamond:
+  ├── activity_labels.txt
   ├── features_info.txt
-  ├── features.txt                               :small_orange_diamond:
+  ├── features.txt
   ├── README.txt
   ├── test/
   │   ├── Inertial Signals
   │   │   ├── body_acc_x_test.txt
   │   │   :
   │   │   └── total_acc_z_test.txt
-  │   ├── subject_test.txt                       :small_blue_diamond:
-  │   ├── X_test.txt                             :small_blue_diamond:
-  │   └── y_test.txt                             :small_blue_diamond:
+  │   ├── subject_test.txt
+  │   ├── X_test.txt
+  │   └── y_test.txt
   └── train/
       ├── Inertial Signals
       ├── body_acc_x_train.txt
@@ -83,20 +95,27 @@ I prefer short directory names (and without spaces), for short and for ease of u
 file.rename("UCI HAR Dataset", "data")
 ```
 
-Now it's time to look at the documentation
+### Preliminary data inspection
+Just to test reading few lines from `X_test.txt` and to check the number of columns:
+
+```R
+> X_test.head <- data.table(read.table("data/test/X_test.txt", nrows=10))
+> ncol(X_test.head)
+[1] 561
+```
 
 ## Cleaning Data
-`X_test.txt` and `X_train.txt` are big files. They contain 561 variables and we only need 79 of them. It's clearly a waste of time and memory to read these two files in its whole. It's better to use the `read.table` function to skip uneeded columns. But for that, first it's important to know which are those *uneeded columns*.
+`X_test.txt` and `X_train.txt` are big files. They contain 561 variables and we only need 66 of them (see below). It's clearly a waste of time and memory to read these two files in its whole. It's better to use the `read.table` function to skip uneeded columns. But for that, first it's crucial to know which are those *uneeded columns*.
 
 The plan is:
 
    + read the file `features.txt`
    + select those features matching *mean* and *std*
-   + create a vector of factors to select columns
+   + create a vector of factors to select columns that can be used in `read.table`
 
 ### Selecting features
 
-The `X_data` data set under construction must contain only those variables that are the *mean* and *std* (standard deviation) of other features. Fortunately, there is a file named `features.txt` containing the names of the features. These names follow a simple convetion. for example, some features related to body acceleration `BodyAcc` are named as follows:
+The file `features.txt` containing the names of the features following a simple convetion. For example, some measures related to body acceleration `BodyAcc` are named as follows:
 
 | pefix | feature | suffix | axis    |
 |:-----:|---------|--------|---------|
@@ -107,7 +126,44 @@ The `X_data` data set under construction must contain only those variables that 
 
 When `X`, `Y` and `Z` axis are present, there is a single feature for each one.
 
-We are only interested in those 
+We are only interested in names matching `mean` and `std`. But caution: some variables also contain `mean` and `std` but aren't on the mean or standard deviation of measures. For example, variables like:
+
+   + `angle(tBodyAccMean,gravity)`
+   + `angle(tBodyAccJerkMean),gravityMean)`
+   + `angle(X,gravityMean)`
+
+refer to *angles between* forces, not means. The same for variables like:
+
+   + `fBodyAcc-meanFreq()-X`
+   + `fBodyGyro-meanFreq()-X`
+   + `fBodyBodyAccJerkMag-meanFreq()`
+
+which are the *weighted average of the frequency components to obtain a mean frequency*. Their *mean* counterpart already exist:
+
+   + `fBodyAcc-mean()-X`
+   + `fBodyGyro-mean()-X`
+   + `fBodyBodyAccJerkMag-mean()`
+
+
+```R
+features <- read.table("data/features.txt", colClasses=c("NULL", NA))
+features.idx <- grep("(mean|std)\\(", features[,1])
+```
+
+Variable `features.idx` contain the index of the target columns. Remaining ones must be dropped. How many columns are there?
+
+```R
+length(features.idx)
+[1] 66
+```
+
+### Selecting columns
+`read.table` function accepts a parameter called `colClasses` to indicate the class of each column. It is possible to indicate `"NULL"` to skip columns and `NA` (the default) to automatically use `type.convert`. With this, the vector to select columns is:
+
+```R
+columnSelection <- rep("NULL", 561)
+columnSelection[features.idx] = NA
+```
 
 ### Fetching variable names
 This step is crucial to select the columns to be read from `X_test.txt` and `X_train.txt` files.
