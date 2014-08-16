@@ -51,12 +51,12 @@ row. Obvious possible values are `test` or `train`.
 
 ### Omiting files (:interrobang:)
 
-I deliberately omit the files contained in the `test/Intertial Signals` and
-`train/Intertial Signals` directories because the final dataset must contain
-only those measurements on the mean and standard deviation for each
-measurement. Neither of these directories contains such data. All
-measurements there correspond to body acceleration, gyroscope and total
-acceleration, so there's no need to worry about them.
+I deliberately omit all files contained in the `test/Intertial Signals` and
+`train/Intertial Signals` directories. The final dataset must contain only
+those measurements on the mean and standard deviation for each measurement,
+and neither of these directories contains such data. All measurements there
+correspond to body acceleration, gyroscope and total acceleration, so there's
+no need to worry about them.
 
 
 <br>
@@ -65,7 +65,7 @@ acceleration, so there's no need to worry about them.
 Let's begin by the beginning.
 
 
-### Downloading files
+#### Downloading files
 
 The very first thing to do is to download the zip file from the given URL:
 
@@ -76,7 +76,7 @@ download.file(fileUrl, destfile="dataset.zip", method="curl")
 ```
 
 
-### Files accommodation
+#### Files accommodation
 
 I prefer to work with *unzipped* files both for reading from `R` and for
 taking a look at them:
