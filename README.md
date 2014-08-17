@@ -17,8 +17,8 @@
         - [Setting column names](#setting-column-names)
         - [Fetching variable names](#fetching-variable-names)
     - [Reading data](#reading-data)
-        - [X_test](#X_test)
-        - [X_train](#X_train)
+        - [X_test](#x_test)
+        - [X_train](#x_train)
     - [Putting it all together](#putting-it-all-together)
 
 <!-- markdown-toc end -->
@@ -43,7 +43,7 @@ work.
 
 Please note that I've included the **code book** in the present
 repository. I've written it with *markdown*, so you can read it with the link
-(code book)[code_book.md].
+[code book](code_book.md).
 
 You can indistinctly run every single `R` in this file or run the script
 file. The final result shall be the same.
