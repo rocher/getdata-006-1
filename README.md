@@ -1,7 +1,3 @@
-<br>
-#Getting and Cleaning Data
-### *Project Submission*
-
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc/generate-toc again -->
 **Table of Contents**
 
@@ -16,21 +12,22 @@
         - [Files accommodation](#files-accommodation)
         - [Preliminary data inspection](#preliminary-data-inspection)
     - [Cleaning Data](#cleaning-data)
-        - [Selecting features](#selecting-features)
+        - [Selecting columns](#selecting-columns)
         - [Selecting columns](#selecting-columns)
         - [Setting column names](#setting-column-names)
         - [Fetching variable names](#fetching-variable-names)
     - [Reading data](#reading-data)
-        - [X_test](#X_test)
-- [read data](#read-data)
-- [set descriptive names](#set-descriptive-names)
-- [read and add subject factor](#read-and-add-subject-factor)
-- [read and add activity factor](#read-and-add-activity-factor)
-- [add origin column](#add-origin-column)
-    - [-](#-)
+        - [X_test](#xtest)
+        - [X_train](#xtrain)
     - [Putting it all together](#putting-it-all-together)
+    - [*notes*](#notes)
 
 <!-- markdown-toc end -->
+
+<br>
+#Getting and Cleaning Data
+### *Project Submission*
+
 
 <br>
 ## Introduction
@@ -104,7 +101,6 @@ The very first thing to do is to download the zip file from the given URL:
 ```R
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 download.file(fileUrl, destfile="dataset.zip", method="curl")
-
 ```
 
 
@@ -161,8 +157,8 @@ Just to test reading few lines from `X_test.txt` and to check the number of
 columns:
 
 ```R
-> X_test.head <- data.table(read.table("data/test/X_test.txt", nrows=10))
-> ncol(X_test.head)
+ X_test.head <- data.table(read.table("data/test/X_test.txt", nrows=10))
+ ncol(X_test.head)
 [1] 561
 ```
 
@@ -186,10 +182,10 @@ The plan is:
    + create a vector of factors to select columns, to be used by `read.table`
 
 
-### Selecting features
+### Selecting columns
 
 The file `features.txt` contains the names of the measures following a simple
-convetion. For example, some measures related to body acceleration `BodyAcc`
+convention. For example, some measures related to body acceleration `BodyAcc`
 are named as follows:
 
 | pefix | feature | suffix | axis    |
@@ -199,7 +195,7 @@ are named as follows:
 | t     | BodyAcc | std    | X, Y, Z |
 | t     | BodyAcc | sma    |         |
 
-When `X`, `Y` and `Z` axis are present, there is a single feature for each
+When `X`, `Y` and `Z` axis are present, there is a single measure for each
 one.
 
 We are only interested in names matching `mean` and `std`.
@@ -211,7 +207,7 @@ mean or standard deviation of measures. For example, variables like:
    + `angle(tBodyAccJerkMean),gravityMean)`
    + `angle(X,gravityMean)`
 
-refer to *angles between* forces, not means. The same for variables like:
+refer to *angles between forces*, not means. The same for variables like:
 
    + `fBodyAcc-meanFreq()-X`
    + `fBodyGyro-meanFreq()-X`
@@ -311,6 +307,16 @@ This is the same as in `X_test`:
 
 <br>
 ## Putting it all together
+
+
+---
+
+The original data set is copyright of its authors:
+> *Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz.*
+> **Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine.**
+> International Workshop of Ambient Assisted Living (IWAAL 2012).
+> Vitoria-Gasteiz, Spain. Dec 2012
+
 
 <!--
 Local Variables:
