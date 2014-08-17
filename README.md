@@ -41,7 +41,7 @@ work.
 
 Please note that I've included the **code book** in the present
 repository. I've written it with *markdown*, so you can read it with the link
-[code book](code_book.md).
+[CodeBook](CodeBook.md).
 
 You can indistinctly run every single `R` in this file or run the script
 file. The final result shall be the same.
