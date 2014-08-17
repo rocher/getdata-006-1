@@ -20,7 +20,7 @@ Observations:
   - Variables 61-66: I have not enough information to write a valid description,
     market with `(?)`
 
-
+<span style="text-size:10px">
 
  num | Variable name               | Domain | Descriptor | Units  | Description
 ----:|:----------------------------|:------:|:----------:|:-------|:----------------------------------------------------
@@ -94,6 +94,7 @@ Observations:
   68 | activity                    |        |            |        | The name of the activity performed
   69 | origin                      |        |            |        | The origin of the feature
 
+</span>
 
 [authors]:
 > *Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz.*
