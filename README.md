@@ -1,27 +1,25 @@
-<br>
 #Getting and Cleaning Data
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc/generate-toc again -->
 **Table of Contents**
 
-- [Getting and Cleaning Data](#getting-and-cleaning-data)
-    - [Introduction](#introduction)
-        - [Requirements](#requirements)
-        - [The Big Picture](#the-big-picture)
-        - [Omiting files (:interrobang:)](#omiting-files-interrobang)
-    - [Getting Raw Data](#getting-raw-data)
-        - [Downloading files](#downloading-files)
-        - [Files accommodation](#files-accommodation)
-        - [Preliminary data inspection](#preliminary-data-inspection)
-    - [Cleaning Data](#cleaning-data)
-        - [Selecting columns](#selecting-columns)
-        - [Selecting columns](#selecting-columns)
-        - [Setting column names](#setting-column-names)
-        - [Fetching variable names](#fetching-variable-names)
-    - [Reading data](#reading-data)
-        - [X_test](#x_test)
-        - [X_train](#x_train)
-    - [Putting it all together](#putting-it-all-together)
+- [Introduction](#introduction)
+    - [Requirements](#requirements)
+    - [The Big Picture](#the-big-picture)
+    - [Omitting files](#omitting-files)
+- [Getting Raw Data](#getting-raw-data)
+    - [Downloading files](#downloading-files)
+    - [Files accommodation](#files-accommodation)
+    - [Preliminary data inspection](#preliminary-data-inspection)
+- [Cleaning Data](#cleaning-data)
+    - [Selecting columns](#selecting-columns)
+    - [Selecting columns](#selecting-columns)
+    - [Setting column names](#setting-column-names)
+    - [Fetching variable names](#fetching-variable-names)
+- [Reading data](#reading-data)
+    - [X_test](#x_test)
+    - [X_train](#x_train)
+- [Putting it all together](#putting-it-all-together)
 
 <!-- markdown-toc end -->
 
@@ -31,13 +29,13 @@
 
 This is my submission for the course project *Getting and Cleaning Data*
 (<tt>getdata-006</tt>). I hope you enjoy my work, the way I've constructed
-the dataset and the `R` code provided here to make it.
+the data set and the `R` code provided here to make it.
 
 The file you are reading, `README.md`, contains exactly the same `R` code
-than the script file `run_analysis.R` provided to make the assignment. Here
-the ideas are developed and explained in great detail, whereas in the script
-you'll find `R` comments with references to the steps followed all along the
-work.
+than the script file [run_analysis.R](run_analysis.R) provided to make the
+assignment. Here the ideas are developed and explained in great detail,
+whereas in the script you'll find `R` comments with references to the steps
+followed all along the work.
 
 Please note that I've included the **code book** in the present
 repository. I've written it with *markdown*, so you can read it with the link
@@ -78,7 +76,7 @@ figure. They correspond to a new factor variable I'll introduce later called
 row. Obvious possible values are `test` or `train`.
 
 
-### Omiting files (:interrobang:)
+### Omitting files
 
 I deliberately omit all files contained in the `test/Intertial Signals` and
 `train/Intertial Signals` directories. The final dataset must contain only
@@ -182,7 +180,7 @@ The plan is:
    + create a vector of factors to select columns, to be used by `read.table`
 
 
-### Selecting columns
+### Selecting columns by name
 
 The file `features.txt` contains the names of the measures following a simple
 convention. For example, some measures related to body acceleration `BodyAcc`
@@ -226,14 +224,51 @@ features <- read.table("data/features.txt", colClasses=c("NULL", NA))
 features.idx <- grep("(mean|std)\\(", features[,1])
 ```
 
-Variable `features.idx` contain the index of the target columns. Remaining ones must be dropped. How many columns are there?
+Variable `features.idx` contain the index of the target columns. Remaining
+ones must be dropped. How many columns are there?
 
 ```R
 length(features.idx)
 [1] 66
 ```
 
-### Selecting columns
+### Setting descriptive names
+
+The most important part of this step is to set descriptive names for
+columns. The strings contained in file `features.txt` are quite descriptive,
+but can be slightly improved with a simple replacement:
+
+  + Change *camelCaseNames* to *underscore_names*
+  + Remove parenthesis from names
+  + Separate `t` and `f` indicators (for *time* and *frequency*)
+  + Separate descriptors `mean` and `std`
+  + Separate keywords *Body*, *Gravity* and *Gyro* in the start of the name
+
+For example, the name `tBodyAccJerk-mean()-Z` will become
+`t_mean_Body_AccJerk_Z`. See the [CodeBook](CodeBook) for a complete list of
+variables.
+
+The changes are easy to *sapply* using `sub`, but only to selected variables
+according to `features.idx`:
+
+```R
+features.name <- features[features.idx, 1]
+features.name <- as.character(sapply(features.name, sub,
+                                  pattern="(t|f)(Body|Gravity|Gyro)(.*)-(mean|std)\\(\\)-([XYZ])",
+                                  replacement="\\1_\\4_\\2_\\3_\\5"))
+features.name <- as.character(sapply(features.name, sub,
+                                  pattern="(t|f)(Body|Gravity|Gyro)(.*)-(mean|std)\\(\\)",
+                                  replacement="\\1_\\4_\\2_\\3"))
+```
+
+The second part of this step consist to read names for activities. Later,
+numbers will be replaced by these names:
+
+```R
+activityName <- read.table("data/activity_labels.txt")
+```
+
+### Selecting columns by position
 
 `read.table` function accepts a parameter called `colClasses` to indicate the
 class of each column. It is possible to indicate `"NULL"` to skip columns and
@@ -244,21 +279,6 @@ to select columns is:
 columnSelection <- rep("NULL", 561)
 columnSelection[features.idx] = NA
 ```
-
-### Setting column names
-
-Now it's time to set proper, descriptive names to recently read columns in
-`X_test`:
-
-```R
-names(X_test) <- features.names
-```
-
-### Fetching variable names
-
-This step is crucial to select the columns to be read from `X_test.txt` and
-`X_train.txt` files.
-
 
 <br>
 ## Reading data
@@ -278,36 +298,59 @@ Few steps are needed to create `X_test`
 In `R` language:
 
 ```R
-  # read data
+  # read X_test and set variable names
   X_test <- data.table(read.table("data/test/X_test.txt", colClasses=columnSelection))
-
-  # set descriptive names
   setnames(X_test, features.name)
 
   # read and add subject factor
   X_test.subject <- read.table("data/test/subject_test.txt")
-  X_test[,subject:=as.factor(X_test.subject[,1])]
+  X_test[,subject := as.factor(X_test.subject[,1])]
 
   # read and add activity factor
   X_test.activity <- read.table("data/test/y_test.txt")
-  X_test[,activity:=activityName[X_test.activity[,1],2]]
+  X_test[ , activity := activityName[X_test.activity[ , 1], 2]]
 
-  # add origin column
-  X_test[,origin:="test"]
+  # add origin factor
+  X_test[ , origin := "test"]
 ```
 
 
 ### X_train
 
-This is the same as in `X_test`:
+This is the same as for `X_test`:
 
 ```R
+ # read X_train and set variable names
+ X_train <- data.table(read.table("data/train/X_train.txt", colClasses=columnSelection))
+ setnames(X_train, features.name)
+
+ # add 'aubject' column
+ X_train.subject <- read.table("data/train/subject_train.txt")
+ X_train[ , subject := X_train.subject]
+
+ # add 'activity' column
+ X_train.activity <- read.table("data/train/y_train.txt")
+ X_train[ , activity := activityName[X_train.activity[,1],2]]
+
+ # add 'origin' column  (in the figure, new blue column)
+ X_train[ , origin := "train"]
 ```
 
 
 <br>
 ## Putting it all together
 
+### Merging data.frames
+
+```R
+X_data <- merge(X_test, X_train, all=TRUE, by=names(X_test))
+```
+
+### Writing tidy data set
+
+```R
+write.table(X_data, file="X_data.txt", row.names=FALSE)
+```
 
 ---
 
