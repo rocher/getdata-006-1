@@ -1,8 +1,10 @@
+<br>
+#Getting and Cleaning Data
+
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc/generate-toc again -->
 **Table of Contents**
 
 - [Getting and Cleaning Data](#getting-and-cleaning-data)
-    - [-](#-)
     - [Introduction](#introduction)
         - [Requirements](#requirements)
         - [The Big Picture](#the-big-picture)
@@ -22,10 +24,6 @@
     - [Putting it all together](#putting-it-all-together)
 
 <!-- markdown-toc end -->
-
-<br>
-#Getting and Cleaning Data
-### *Project Submission*
 
 
 <br>
@@ -55,7 +53,6 @@ file. The final result shall be the same.
 
 ```R
 library(data.table)
-library(ggplot2)  # optional, in case you'd like to see some plots
 ```
 
 ### The Big Picture
