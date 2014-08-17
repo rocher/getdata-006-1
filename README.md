@@ -281,9 +281,9 @@ This is the same as in `X_test`:
 ## Putting it all together
 
 
----
+```
 Local Variables:
 mode: markdown
 mode: flyspell
 End:
----
+```
