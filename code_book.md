@@ -2,17 +2,24 @@
 
 ## Variables
 
-This table describes the variables included in the tidy data set. The
-original data set copyright of [authors][authors].
+This table describes the variables included in the tidy data set. The original
+data set is copyright of [authors][authors].
 
-All variables are `numeric` in the range `[-1, 1]`, except the last three
-factors
+Observations:
 
-   1. `subject` in an integer in the range `[1, 30]`
+  1. All variables are `numeric` in the range `[-1, 1]`, except the last three
+     factors:
 
-   2. `activity` is a string in the set `{ WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING }`
+    + `subject` in an integer in the range `[1, 30]`
 
-   3. `origin` is a factor in the set `{ test, train }`
+    + `activity` is a string. Possible values are `WALKING`, `WALKING_UPSTAIRS`,
+      `WALKING_DOWNSTAIRS`, `SITTING`, `STANDING` or `LAYING`.
+
+    + `origin` is a factor in the set `{ test, train }`
+
+  2. Variables 61-66: I have not enough information to give a valid description,
+     market with `(?)`
+
 
 
  num | Variable name               | Domain | Descriptor | Units  | Description
@@ -77,12 +84,12 @@ factors
   58 | f_std_Body_Gyro_Z           |  freq  |     SD     | Hz     | FFT of measurement 24
   59 | f_mean_Body_AccMag          |  freq  |    mean    | Hz     | FFT of measurement 31
   60 | f_std_Body_AccMag           |  freq  |     SD     | Hz     | FFT of measurement 32
-  61 | f_mean_Body_BodyAccJerkMag  |  freq  |    mean    | Hz     | FFT combined of measurement
-  62 | f_std_Body_BodyAccJerkMag   |  freq  |     SD     | Hz     |
-  63 | f_mean_Body_BodyGyroMag     |  freq  |    mean    | Hz     |
-  64 | f_std_Body_BodyGyroMag      |  freq  |     SD     | Hz     |
-  65 | f_mean_Body_BodyGyroJerkMag |  freq  |    mean    | Hz     |
-  66 | f_std_Body_BodyGyroJerkMag  |  freq  |     SD     | Hz     |
+  61 | f_mean_Body_BodyAccJerkMag  |  freq  |    mean    | Hz     | FFT (?)
+  62 | f_std_Body_BodyAccJerkMag   |  freq  |     SD     | Hz     | FFT (?)
+  63 | f_mean_Body_BodyGyroMag     |  freq  |    mean    | Hz     | FFT (?)
+  64 | f_std_Body_BodyGyroMag      |  freq  |     SD     | Hz     | FFT (?)
+  65 | f_mean_Body_BodyGyroJerkMag |  freq  |    mean    | Hz     | FFT (?)
+  66 | f_std_Body_BodyGyroJerkMag  |  freq  |     SD     | Hz     | FFT (?)
   67 | subject                     |        |            |        | The ID of the subject performing the activity
   68 | activity                    |        |            |        | The name of the activity performed
   69 | origin                      |        |            |        | The origin of the feature
