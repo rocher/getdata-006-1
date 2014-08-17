@@ -21,7 +21,7 @@
         - [Setting column names](#setting-column-names)
         - [Fetching variable names](#fetching-variable-names)
     - [Reading data](#reading-data)
-        - [X_test](#xtest)
+        - [X_test](#X_test)
 - [read data](#read-data)
 - [set descriptive names](#set-descriptive-names)
 - [read and add subject factor](#read-and-add-subject-factor)
@@ -282,22 +282,22 @@ Few steps are needed to create `X_test`
 In `R` language:
 
 ```R
-# read data
-X_test <- data.table(read.table("data/test/X_test.txt", colClasses=columnSelection))
+  # read data
+  X_test <- data.table(read.table("data/test/X_test.txt", colClasses=columnSelection))
 
-# set descriptive names
-setnames(X_test, features.name)
+  # set descriptive names
+  setnames(X_test, features.name)
 
-# read and add subject factor
-X_test.subject <- read.table("data/test/subject_test.txt")
-X_test[,subject:=as.factor(X_test.subject[,1])]
+  # read and add subject factor
+  X_test.subject <- read.table("data/test/subject_test.txt")
+  X_test[,subject:=as.factor(X_test.subject[,1])]
 
-# read and add activity factor
-X_test.activity <- read.table("data/test/y_test.txt")
-X_test[,activity:=activityName[X_test.activity[,1],2]]
+  # read and add activity factor
+  X_test.activity <- read.table("data/test/y_test.txt")
+  X_test[,activity:=activityName[X_test.activity[,1],2]]
 
-# add origin column
-X_test[,origin:="test"]
+  # add origin column
+  X_test[,origin:="test"]
 ```
 
 
