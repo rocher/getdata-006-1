@@ -60,12 +60,12 @@ no need to worry about them.
 
 
 <br>
-## Getting Data
+## Getting Raw Data
 
 Let's begin by the beginning.
 
 
-#### Downloading files
+### Downloading files
 
 The very first thing to do is to download the zip file from the given URL:
 
@@ -76,7 +76,7 @@ download.file(fileUrl, destfile="dataset.zip", method="curl")
 ```
 
 
-#### Files accommodation
+### Files accommodation
 
 I prefer to work with *unzipped* files both for reading from `R` and for
 taking a look at them:
@@ -206,14 +206,84 @@ length(features.idx)
 ```
 
 ### Selecting columns
-`read.table` function accepts a parameter called `colClasses` to indicate the class of each column. It is possible to indicate `"NULL"` to skip columns and `NA` (the default) to automatically use `type.convert`. With this, the vector to select columns is:
+
+`read.table` function accepts a parameter called `colClasses` to indicate the
+class of each column. It is possible to indicate `"NULL"` to skip columns and
+`NA` (the default) to automatically use `type.convert`. With this, the vector
+to select columns is:
 
 ```R
 columnSelection <- rep("NULL", 561)
 columnSelection[features.idx] = NA
 ```
 
+### Setting column names
+
+Now it's time to set proper, descriptive names to recently read columns in
+`X_test`:
+
+```R
+names(X_test) <- features.names
+```
+
 ### Fetching variable names
-This step is crucial to select the columns to be read from `X_test.txt` and `X_train.txt` files.
+
+This step is crucial to select the columns to be read from `X_test.txt` and
+`X_train.txt` files.
 
 
+<br>
+## Reading data
+
+Now it's time to read `X_test` and `X_train` to create `X_data`.
+
+### X_test
+
+Few steps are needed to create `X_test`
+
+   1. Read data columns
+   2. Assign descriptive names to columns
+   3. Read `subject` and `activity` factors
+   4. Add them to `X_test`
+   5. Add `origin` column
+
+In `R` language:
+
+```R
+# read data
+X_test <- data.table(read.table("data/test/X_test.txt", colClasses=columnSelection))
+
+# set descriptive names
+setnames(X_test, features.name)
+
+# read and add subject factor
+X_test.subject <- read.table("data/test/subject_test.txt")
+X_test[,subject:=as.factor(X_test.subject[,1])]
+
+# read and add activity factor
+X_test.activity <- read.table("data/test/y_test.txt")
+X_test[,activity:=activityName[X_test.activity[,1],2]]
+
+# add origin column
+X_test[,origin:="test"]
+```
+
+
+### X_train
+
+This is the same as in `X_test`:
+
+```R
+```
+
+
+<br>
+## Putting it all together
+
+
+---
+Local Variables:
+mode: markdown
+mode: flyspell
+End:
+---
