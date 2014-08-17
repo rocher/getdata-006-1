@@ -89,8 +89,8 @@ This table describes all the variables included in the tidy data set:
   68 | activity                    |        |            |        | The name of the activity performed
 
 
+<br>
 ---
-
 The original data set is copyright of its authors:
 > *Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz.*
 > **Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine.**

@@ -1,5 +1,3 @@
-#Getting and Cleaning Data
-
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc/generate-toc again -->
 **Table of Contents**
 
@@ -22,6 +20,8 @@
     - [Writing tidy data set](#writing-tidy-data-set)
 
 <!-- markdown-toc end -->
+#Getting and Cleaning Data
+
 
 
 <br>
@@ -135,8 +135,8 @@ Just to test reading few lines from `X_test.txt` and to check the number of
 columns:
 
 ```R
- X_test.head <- data.table(read.table("UCI HAR Dataset/test/X_test.txt", nrows=10))
- ncol(X_test.head)
+X_test.head <- data.table(read.table("UCI HAR Dataset/test/X_test.txt", nrows=10))
+ncol(X_test.head)
 [1] 561
 ```
 
@@ -302,20 +302,20 @@ In `R` language:
 This is the same as for `X_test`:
 
 ```R
-# read X_train and set variable names
-X_train <- read.table("UCI HAR Dataset/train/X_train.txt", colClasses=columnSelection)
-setnames(X_train, features.name)
+ # read X_train and set variable names
+ X_train <- read.table("UCI HAR Dataset/train/X_train.txt", colClasses=columnSelection)
+ setnames(X_train, features.name)
 
-# read subject factor
-X_train.subject <- read.table("UCI HAR Dataset/train/subject_train.txt")
+ # read subject factor
+ X_train.subject <- read.table("UCI HAR Dataset/train/subject_train.txt")
 
-# read activity factor
-X_train.activity <- read.table("UCI HAR Dataset/train/y_train.txt")
+ # read activity factor
+ X_train.activity <- read.table("UCI HAR Dataset/train/y_train.txt")
 
-# add subject and activity factors
-X_train <- transform(X_train,
-                     subject = as.factor(X_train.subject[ , 1]),
-                     activity = activityName[X_train.activity[ , 1], 2])
+ # add subject and activity factors
+ X_train <- transform(X_train,
+                      subject = as.factor(X_train.subject[ , 1]),
+                      activity = activityName[X_train.activity[ , 1], 2])
 ```
 
 
@@ -348,9 +348,12 @@ Finally, write and attach the data set obtained:
 ```R
 write.table(X_avg, file="X_avg.txt", row.names=FALSE)
 ```
+This data set has been attached in the project submission and also has been
+stored in this repository, [X_avg](X_avg.txt).
 
+
+<br>
 ---
-
 The original data set is copyright of its authors:
 > *Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz.*
 > **Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine.**
