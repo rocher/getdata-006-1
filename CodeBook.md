@@ -2,17 +2,15 @@
 
 Observations:
 
-  - All variables are `numeric` in the range `[-1, 1]`, except the last three
+  - All variables are `numeric` in the range `[-1, 1]`, except the last two
     factors.
 
-  - The factors are:
+  - Factors are:
 
-    + `subject` in an integer in the range `[1, 30]`
+    + *subject*, in the range `[1, 30]`
 
-    + `activity` is a string. Possible values are `WALKING`, `WALKING_UPSTAIRS`,
+    + *activity* is a string. Possible values are `WALKING`, `WALKING_UPSTAIRS`,
       `WALKING_DOWNSTAIRS`, `SITTING`, `STANDING` or `LAYING`
-
-    + `origin` is a factor with possible values of `test` or `train`
 
   - Variables 61-66: I have not enough information to write a valid description,
     market with `(?)`
@@ -89,7 +87,6 @@ This table describes all the variables included in the tidy data set:
   66 | f_std_Body_BodyGyroJerkMag  |  freq  |     SD     | Hz     | FFT (?)
   67 | subject                     |        |            |        | The ID of the subject performing the activity
   68 | activity                    |        |            |        | The name of the activity performed
-  69 | origin                      |        |            |        | The origin of the feature
 
 
 ---

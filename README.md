@@ -1,27 +1,5 @@
 #Getting and Cleaning Data
 
-<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc/generate-toc again -->
-**Table of Contents**
-
-- [Introduction](#introduction)
-    - [Requirements](#requirements)
-    - [The Big Picture](#the-big-picture)
-    - [Omitting files](#omitting-files)
-- [Getting Raw Data](#getting-raw-data)
-    - [Downloading files](#downloading-files)
-    - [Files accommodation](#files-accommodation)
-    - [Preliminary data inspection](#preliminary-data-inspection)
-- [Cleaning Data](#cleaning-data)
-    - [Selecting columns](#selecting-columns)
-    - [Selecting columns](#selecting-columns)
-    - [Setting column names](#setting-column-names)
-    - [Fetching variable names](#fetching-variable-names)
-- [Reading data](#reading-data)
-    - [X_test](#x_test)
-    - [X_train](#x_train)
-- [Putting it all together](#putting-it-all-together)
-
-<!-- markdown-toc end -->
 
 
 <br>
@@ -43,15 +21,29 @@ repository. I've written it with *markdown*, so you can read it with the link
 
 You can indistinctly run every single `R` in this file or run the script
 file. The final result shall be the same.
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc/generate-toc again -->
+**Table of Contents**
 
+- [Introduction](#introduction)
+    - [The Big Picture](#the-big-picture)
+    - [Omitting files](#omitting-files)
+- [Getting Raw Data](#getting-raw-data)
+    - [Downloading files](#downloading-files)
+    - [Files accommodation](#files-accommodation)
+    - [Preliminary data inspection](#preliminary-data-inspection)
+- [Cleaning Data](#cleaning-data)
+    - [Selecting columns by name](#selecting-columns-by-name)
+    - [Setting descriptive names](#setting-descriptive-names)
+    - [Selecting columns by position](#selecting-columns-by-position)
+- [Reading data](#reading-data)
+    - [X_test](#x_test)
+    - [X_train](#x_train)
+- [Putting it all together](#putting-it-all-together)
+    - [Merging data.frames](#merging-dataframes)
+    - [Writing tidy data set](#writing-tidy-data-set)
 
-### Requirements
+<!-- markdown-toc end -->
 
-`R` libraries used:
-
-```R
-library(data.table)
-```
 
 ### The Big Picture
 
@@ -69,11 +61,6 @@ be organized as follows:
 
 Each data block can be extracted from the files indicated in the figure,
 although more will be used during the construction process.
-
-Please note two unamed <span style="color:blue">*blue columns*</span> in the
-figure. They correspond to a new factor variable I'll introduce later called
-`origin`. The purpose of this variable is to keep track of the origin of each
-row. Obvious possible values are `test` or `train`.
 
 
 ### Omitting files
@@ -111,19 +98,12 @@ taking a look at them:
 unzip("dataset.zip")
 ```
 
-I prefer short directory names and without spaces, for short and for ease of
-use. For this `file.rename` comes in handy:
-
-```R
-file.rename("UCI HAR Dataset", "data")
-```
-
-These commands result in the following directory structure populated with
+This command results in the following directory structure populated with
 files:
 
 ```
                                               Used to extract
-data/                                         -----------------------------
+UCI HAR Dataset/                              -----------------------------
   ├── activity_labels.txt ................... metadata: activity names
   ├── features_info.txt
   ├── features.txt .......................... metadata: measure names
@@ -155,7 +135,7 @@ Just to test reading few lines from `X_test.txt` and to check the number of
 columns:
 
 ```R
- X_test.head <- data.table(read.table("data/test/X_test.txt", nrows=10))
+ X_test.head <- data.table(read.table("UCI HAR Dataset/test/X_test.txt", nrows=10))
  ncol(X_test.head)
 [1] 561
 ```
@@ -166,7 +146,7 @@ columns:
 
 `X_test.txt` and `X_train.txt` are huge files. They contain 561 variables for
 a total of 10,561 observations. According to the assignment specifications,
-only 66 variables are needed (see below).
+only 66 variables are needed (66? see below).
 
 It's a clear waste of time and memory to read these two files in its
 whole. It's better to use the `read.table` function to skip unneeded
@@ -218,10 +198,12 @@ frequency*. Their *mean* counterpart already exist:
    + `fBodyGyro-mean()-X`
    + `fBodyBodyAccJerkMag-mean()`
 
+The selected variables are those matching *mean* or *std* followed by
+*()*. The `grep` function return the index of each match:
 
 ```R
-features <- read.table("data/features.txt", colClasses=c("NULL", NA))
-features.idx <- grep("(mean|std)\\(", features[,1])
+features <- read.table("UCI HAR Dataset/features.txt", colClasses=c("NULL", NA))
+features.idx <- grep("(mean|std)\\(", features[ , 1])
 ```
 
 Variable `features.idx` contain the index of the target columns. Remaining
@@ -236,36 +218,37 @@ length(features.idx)
 
 The most important part of this step is to set descriptive names for
 columns. The strings contained in file `features.txt` are quite descriptive,
-but can be slightly improved with a simple replacement:
+but can be slightly improved with simple replacements:
 
   + Change *camelCaseNames* to *underscore_names*
   + Remove parenthesis from names
   + Separate `t` and `f` indicators (for *time* and *frequency*)
-  + Separate descriptors `mean` and `std`
+  + Separate descriptors `mean` and `std` from names
   + Separate keywords *Body*, *Gravity* and *Gyro* in the start of the name
+  + Put the axis, if present, at the end prefixed with an underscore
 
 For example, the name `tBodyAccJerk-mean()-Z` will become
 `t_mean_Body_AccJerk_Z`. See the [CodeBook](CodeBook) for a complete list of
 variables.
 
-The changes are easy to *sapply* using `sub`, but only to selected variables
-according to `features.idx`:
+The changes are easy to *sapply* using `sub`. First, `features.name` contains
+the name of the selected variables (according to `features.idx`):
 
 ```R
 features.name <- features[features.idx, 1]
 features.name <- as.character(sapply(features.name, sub,
-                                  pattern="(t|f)(Body|Gravity|Gyro)(.*)-(mean|std)\\(\\)-([XYZ])",
-                                  replacement="\\1_\\4_\\2_\\3_\\5"))
+                              pattern="(t|f)(Body|Gravity|Gyro)(.*)-(mean|std)\\(\\)-([XYZ])",
+                              replacement="\\1_\\4_\\2_\\3_\\5"))
 features.name <- as.character(sapply(features.name, sub,
-                                  pattern="(t|f)(Body|Gravity|Gyro)(.*)-(mean|std)\\(\\)",
-                                  replacement="\\1_\\4_\\2_\\3"))
+                              pattern="(t|f)(Body|Gravity|Gyro)(.*)-(mean|std)\\(\\)",
+                              replacement="\\1_\\4_\\2_\\3"))
 ```
 
 The second part of this step consist to read names for activities. Later,
 numbers will be replaced by these names:
 
 ```R
-activityName <- read.table("data/activity_labels.txt")
+activityName <- read.table("UCI HAR Dataset/activity_labels.txt")
 ```
 
 ### Selecting columns by position
@@ -273,7 +256,7 @@ activityName <- read.table("data/activity_labels.txt")
 `read.table` function accepts a parameter called `colClasses` to indicate the
 class of each column. It is possible to indicate `"NULL"` to skip columns and
 `NA` (the default) to automatically use `type.convert`. With this, the vector
-to select columns is:
+to read selected columns only is:
 
 ```R
 columnSelection <- rep("NULL", 561)
@@ -285,6 +268,7 @@ columnSelection[features.idx] = NA
 
 Now it's time to read `X_test` and `X_train` to create `X_data`.
 
+
 ### X_test
 
 Few steps are needed to create `X_test`
@@ -293,47 +277,45 @@ Few steps are needed to create `X_test`
    2. Assign descriptive names to columns
    3. Read `subject` and `activity` factors
    4. Add them to `X_test`
-   5. Add `origin` column
 
 In `R` language:
 
 ```R
-  # read X_test and set variable names
-  X_test <- data.table(read.table("data/test/X_test.txt", colClasses=columnSelection))
-  setnames(X_test, features.name)
+ # read X_test and set variable names
+ X_test <- read.table("UCI HAR Dataset/test/X_test.txt", colClasses=columnSelection)
+ setnames(X_test, features.name)
 
-  # read and add subject factor
-  X_test.subject <- read.table("data/test/subject_test.txt")
-  X_test[,subject := as.factor(X_test.subject[,1])]
+ # read subject factor
+ X_test.subject <- read.table("UCI HAR Dataset/test/subject_test.txt")
 
-  # read and add activity factor
-  X_test.activity <- read.table("data/test/y_test.txt")
-  X_test[ , activity := activityName[X_test.activity[ , 1], 2]]
+ # read activity factor
+ X_test.activity <- read.table("UCI HAR Dataset/test/y_test.txt")
 
-  # add origin factor
-  X_test[ , origin := "test"]
+ # add subject and activity factors
+ X_test <- transform(X_test,
+                     subject = as.factor(X_test.subject[ , 1]),
+                     activity = activityName[X_test.activity[ , 1], 2])
 ```
-
 
 ### X_train
 
 This is the same as for `X_test`:
 
 ```R
- # read X_train and set variable names
- X_train <- data.table(read.table("data/train/X_train.txt", colClasses=columnSelection))
- setnames(X_train, features.name)
+# read X_train and set variable names
+X_train <- read.table("UCI HAR Dataset/train/X_train.txt", colClasses=columnSelection)
+setnames(X_train, features.name)
 
- # add 'aubject' column
- X_train.subject <- read.table("data/train/subject_train.txt")
- X_train[ , subject := X_train.subject]
+# read subject factor
+X_train.subject <- read.table("UCI HAR Dataset/train/subject_train.txt")
 
- # add 'activity' column
- X_train.activity <- read.table("data/train/y_train.txt")
- X_train[ , activity := activityName[X_train.activity[,1],2]]
+# read activity factor
+X_train.activity <- read.table("UCI HAR Dataset/train/y_train.txt")
 
- # add 'origin' column  (in the figure, new blue column)
- X_train[ , origin := "train"]
+# add subject and activity factors
+X_train <- transform(X_train,
+                     subject = as.factor(X_train.subject[ , 1]),
+                     activity = activityName[X_train.activity[ , 1], 2])
 ```
 
 
@@ -342,14 +324,29 @@ This is the same as for `X_test`:
 
 ### Merging data.frames
 
+The final data set `X_data` is the union of both data sets:
+
 ```R
-X_data <- merge(X_test, X_train, all=TRUE, by=names(X_test))
+X_data <- rbind(X_test, X_train)
 ```
 
 ### Writing tidy data set
 
+The second data set must contain the average of each variable for each
+subject and each activity. `X_avg` is then computed as an *aggregation* of
+the variables selected in `X_data`:
+
 ```R
-write.table(X_data, file="X_data.txt", row.names=FALSE)
+X_avg <- aggregate(X_data[ , 1:66],
+                   by=list(X_data$subject, X_data$activity),
+                   FUN=mean)
+colnames(X_avg)[1:2] <- c("subject", "activity")
+```
+
+Finally, write and attach the data set obtained:
+
+```R
+write.table(X_avg, file="X_avg.txt", row.names=FALSE)
 ```
 
 ---
