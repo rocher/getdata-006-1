@@ -1,12 +1,36 @@
----
-output:
-  html_document:
-    number_sections: yes
-    toc: yes
----
-
+<br>
 #Getting and Cleaning Data
 ### *Project Submission*
+
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc/generate-toc again -->
+**Table of Contents**
+
+- [Getting and Cleaning Data](#getting-and-cleaning-data)
+    - [-](#-)
+    - [Introduction](#introduction)
+        - [Requirements](#requirements)
+        - [The Big Picture](#the-big-picture)
+        - [Omiting files (:interrobang:)](#omiting-files-interrobang)
+    - [Getting Raw Data](#getting-raw-data)
+        - [Downloading files](#downloading-files)
+        - [Files accommodation](#files-accommodation)
+        - [Preliminary data inspection](#preliminary-data-inspection)
+    - [Cleaning Data](#cleaning-data)
+        - [Selecting features](#selecting-features)
+        - [Selecting columns](#selecting-columns)
+        - [Setting column names](#setting-column-names)
+        - [Fetching variable names](#fetching-variable-names)
+    - [Reading data](#reading-data)
+        - [X_test](#xtest)
+- [read data](#read-data)
+- [set descriptive names](#set-descriptive-names)
+- [read and add subject factor](#read-and-add-subject-factor)
+- [read and add activity factor](#read-and-add-activity-factor)
+- [add origin column](#add-origin-column)
+    - [-](#-)
+    - [Putting it all together](#putting-it-all-together)
+
+<!-- markdown-toc end -->
 
 <br>
 ## Introduction
