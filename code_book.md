@@ -1,26 +1,23 @@
 # Code Book
 
-## Variables
-
-This table describes the variables included in the tidy data set. The original
-data set is copyright of [authors][].
-
 Observations:
 
   - All variables are `numeric` in the range `[-1, 1]`, except the last three
-    factors:
+    factors.
+
+  - The factors are:
 
     + `subject` in an integer in the range `[1, 30]`
 
     + `activity` is a string. Possible values are `WALKING`, `WALKING_UPSTAIRS`,
-      `WALKING_DOWNSTAIRS`, `SITTING`, `STANDING` or `LAYING`.
+      `WALKING_DOWNSTAIRS`, `SITTING`, `STANDING` or `LAYING`
 
-    + `origin` is a factor in the set `{ test, train }`
+    + `origin` is a factor with possible values of `test` or `train`
 
   - Variables 61-66: I have not enough information to write a valid description,
     market with `(?)`
 
-<span style="text-size:10px">
+This table describes all the variables included in the tidy data set:
 
  num | Variable name               | Domain | Descriptor | Units  | Description
 ----:|:----------------------------|:------:|:----------:|:-------|:----------------------------------------------------
@@ -94,9 +91,8 @@ Observations:
   68 | activity                    |        |            |        | The name of the activity performed
   69 | origin                      |        |            |        | The origin of the feature
 
-</span>
 
-[authors]:
+The original data set is copyright of its authors:
 > *Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz.*
 > **Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine.**
 > International Workshop of Ambient Assisted Living (IWAAL 2012).
