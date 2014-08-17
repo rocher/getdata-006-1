@@ -1,8 +1,10 @@
-<!---
+<!--
+---
 output:
   html_document:
     number_sections: yes
     toc: yes
+---
 --->
 
 #Getting and Cleaning Data
@@ -28,6 +30,7 @@ file. The final result shall be the same.
 ### Requirements
 
 `R` libraries used:
+
 ```R
 library(data.table)
 library(ggplot2)  # optional, in case you'd like to see some plots
