@@ -1,11 +1,9 @@
-<!--
 ---
 output:
   html_document:
     number_sections: yes
     toc: yes
 ---
---->
 
 #Getting and Cleaning Data
 ### *Project Submission*
