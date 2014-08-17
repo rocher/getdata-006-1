@@ -3,12 +3,12 @@
 ## Variables
 
 This table describes the variables included in the tidy data set. The original
-data set is copyright of [authors][authors].
+data set is copyright of [authors][].
 
 Observations:
 
-  1. All variables are `numeric` in the range `[-1, 1]`, except the last three
-     factors:
+  - All variables are `numeric` in the range `[-1, 1]`, except the last three
+    factors:
 
     + `subject` in an integer in the range `[1, 30]`
 
@@ -17,8 +17,8 @@ Observations:
 
     + `origin` is a factor in the set `{ test, train }`
 
-  2. Variables 61-66: I have not enough information to give a valid description,
-     market with `(?)`
+  - Variables 61-66: I have not enough information to write a valid description,
+    market with `(?)`
 
 
 
