@@ -1,26 +1,5 @@
 #Getting and Cleaning Data
 
-
-
-<br>
-## Introduction
-
-This is my submission for the course project *Getting and Cleaning Data*
-(<tt>getdata-006</tt>). I hope you enjoy my work, the way I've constructed
-the data set and the `R` code provided here to make it.
-
-The file you are reading, `README.md`, contains exactly the same `R` code
-than the script file [run_analysis.R](run_analysis.R) provided to make the
-assignment. Here the ideas are developed and explained in great detail,
-whereas in the script you'll find `R` comments with references to the steps
-followed all along the work.
-
-Please note that I've included the **code book** in the present
-repository. I've written it with *markdown*, so you can read it with the link
-[CodeBook](CodeBook.md).
-
-You can indistinctly run every single `R` in this file or run the script
-file. The final result shall be the same.
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc/generate-toc again -->
 **Table of Contents**
 
@@ -43,6 +22,27 @@ file. The final result shall be the same.
     - [Writing tidy data set](#writing-tidy-data-set)
 
 <!-- markdown-toc end -->
+
+
+<br>
+## Introduction
+
+This is my submission for the course project *Getting and Cleaning Data*
+(<tt>getdata-006</tt>). I hope you enjoy my work, the way I've constructed
+the data set and the `R` code provided here to make it.
+
+The file you are reading, `README.md`, contains exactly the same `R` code
+than the script file [run_analysis.R](run_analysis.R) provided to make the
+assignment. Here the ideas are developed and explained in great detail,
+whereas in the script you'll find `R` comments with references to the steps
+followed all along the work.
+
+Please note that I've included the **code book** in the present
+repository. I've written it with *markdown*, so you can read it with the link
+[CodeBook](CodeBook.md).
+
+You can indistinctly run every single `R` in this file or run the script
+file. The final result shall be the same.
 
 
 ### The Big Picture
