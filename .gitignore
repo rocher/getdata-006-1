@@ -2,6 +2,8 @@
 .Rhistory
 .RData
 data/
+tmp/
+UCI HAR Dataset/
 README.html
 dataset.zip
 .Rproj.user
