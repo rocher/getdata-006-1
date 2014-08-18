@@ -42,7 +42,7 @@ columnSelection[features.idx] = NA
 #
 # read X_test and set variable names
 X_test <- read.table("UCI HAR Dataset/test/X_test.txt", colClasses=columnSelection)
-setnames(X_test, features.name)
+names(X_test) <- features.name
 
 # read subject factor
 X_test.subject <- read.table("UCI HAR Dataset/test/subject_test.txt")
@@ -58,7 +58,7 @@ X_test <- transform(X_test,
 
 # read X_train and set variable names
 X_train <- read.table("UCI HAR Dataset/train/X_train.txt", colClasses=columnSelection)
-setnames(X_train, features.name)
+names(X_train) <- features.name
 
 # read subject factor
 X_train.subject <- read.table("UCI HAR Dataset/train/subject_train.txt")
